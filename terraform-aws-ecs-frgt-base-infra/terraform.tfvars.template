@@ -1,0 +1,7 @@
+# locals variable settings
+business_division = "<business_division>"
+environment       = "<environment>" ## options are "dev", "stg", "prd"
+service           = "<name of service or application>"
+region            = "<region for the deployment>" 
+vpc_cidr          = "<vpc_cidr>"
+public_ec2_key    = "<public_ec2_key>"

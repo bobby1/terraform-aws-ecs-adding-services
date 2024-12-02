@@ -10,9 +10,9 @@ resource "aws_vpc" "main" {
     Name = "${var.business_division}-${var.environment}-app_vpc"
   }
 }
-output "aws_vpc" {
-  value = aws_vpc.main.id
-}
+# output "aws_vpc" {
+#   value = aws_vpc.main.id
+# }
 
 ### Create the public subnet - 2 
 resource "aws_subnet" "public" {
@@ -25,14 +25,15 @@ resource "aws_subnet" "public" {
     Name = "${var.business_division}-${var.environment}-public_subnet-${count.index}"
   }
 }
-output "aws_subnet_public" {
-  value = aws_subnet.public[*].id
-}
-output "aws_subnet_private" {
-  value = aws_subnet.private[*].id
-}
+# output "aws_subnet_public" {
+#   value = aws_subnet.public[*].id
+# }
+# output "aws_subnet_private" {
+#   value = aws_subnet.private[*].id
+# }
 
 ### Create internet gateway
+
 resource "aws_internet_gateway" "igw" {
   vpc_id = aws_vpc.main.id
   tags = {
@@ -40,9 +41,9 @@ resource "aws_internet_gateway" "igw" {
   }
 }
 
-output "aws_internet_gateway" {
-  value = aws_internet_gateway.igw.id
-}
+# output "aws_internet_gateway" {
+#   value = aws_internet_gateway.igw.id
+# }
 
 ### Public route table
 resource "aws_route_table" "rtb-public" {
@@ -101,9 +102,9 @@ resource "aws_route_table_association" "priv-rtb-asoc" {
   route_table_id = aws_route_table.rtb-private.id
 }
 
-output "aws_subnet_private_rtb" {
-  value = aws_route_table.rtb-private.id
-}
-output "aws_subnet_public_rtb" {
-  value = aws_route_table.rtb-public.id
-}
+# output "aws_subnet_private_rtb" {
+#   value = aws_route_table.rtb-private.id
+# }
+# output "aws_subnet_public_rtb" {
+#   value = aws_route_table.rtb-public.id
+# }

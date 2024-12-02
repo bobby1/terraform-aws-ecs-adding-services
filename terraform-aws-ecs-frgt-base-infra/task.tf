@@ -8,9 +8,9 @@ resource "aws_ecs_task_definition" "task_definition" {
   execution_role_arn = aws_iam_role.ecs_task_execution_role.arn
   container_definitions = jsonencode([
     {
-      name = "${var.environment}-${var.service}-webpage-webpage"
+      name = "${var.environment}-${var.service}-webpage"
       # image     = "nginx"
-      # image = "httpd"
+      # image     = "httpd"
       image     = "tomcat"
       essential = true
       portMappings = [

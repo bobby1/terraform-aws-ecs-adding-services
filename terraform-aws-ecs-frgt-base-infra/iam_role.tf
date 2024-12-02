@@ -17,7 +17,10 @@ resource "aws_iam_role_policy_attachment" "ecs_task_execution_role_policy" {
   role       = aws_iam_role.ecs_task_execution_role.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
-##### from infra
+
+########################################################################################################################
+## IAM Role for EC2 clusters - not needed for fargate
+########################################################################################################################
 resource "aws_iam_role" "ec2_instance_role" {
   name               = "${var.business_division}_EC2_InstanceRole_${var.environment}"
   assume_role_policy = data.aws_iam_policy_document.ec2_instance_role_policy.json

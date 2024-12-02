@@ -1,18 +1,18 @@
-resource "aws_security_group" "lb2" {
+resource "aws_security_group" "lb" {
   description = "controls access to the Application Load Balancer (ALB)"
-  name        = "${var.environment}-${var.service}-webpage-lb-sg2"
+  name        = "${var.environment}-${var.service}-webpage-lb-sg"
   vpc_id      = aws_vpc.main.id
-  ingress {
-    description = "HTTPS from VPC"
-    from_port   = 443
-    to_port     = 443
-    protocol    = "tcp"
-    cidr_blocks = var.ingress_cidr_blocks[var.environment]
-  }
   ingress {
     description = "HTTP from VPC"
     from_port   = 80
     to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = var.ingress_cidr_blocks[var.environment]
+  }
+  ingress {
+    description = "HTTPS from VPC"
+    from_port   = 443
+    to_port     = 443
     protocol    = "tcp"
     cidr_blocks = var.ingress_cidr_blocks[var.environment]
   }
@@ -23,7 +23,6 @@ resource "aws_security_group" "lb2" {
     protocol    = "tcp"
     cidr_blocks = var.ingress_cidr_blocks[var.environment]
   }
-
   egress {
     description = "Cidr Blocks and ports for Egress security"
     protocol    = "-1"
@@ -33,27 +32,30 @@ resource "aws_security_group" "lb2" {
   }
 }
 
-output "aws_security_group_lb2" {
-  value = aws_security_group.lb2.id
-}
-
-resource "aws_security_group" "ecs_tasks2" {
-  name        = "${var.environment}-${var.service}-webpage-ecs-tasks-sg2"
+resource "aws_security_group" "ecs_tasks" {
+  name        = "${var.environment}-${var.service}-ecs-tasks-sg"
   description = "allow inbound access from the ALB only"
   vpc_id      = aws_vpc.main.id
-  ingress {
-    from_port       = 8080
-    to_port         = 8080
-    protocol        = "tcp"
-    cidr_blocks     = ["0.0.0.0/0"]
-    security_groups = [aws_security_group.lb2.id]
-  }
   ingress {
     description = "HTTP from VPC"
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
     cidr_blocks = var.ingress_cidr_blocks[var.environment]
+  }
+  ingress {
+    description = "HTTPS from VPC"
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = var.ingress_cidr_blocks[var.environment]
+  }
+  ingress {
+    from_port       = 8080
+    to_port         = 8080
+    protocol        = "tcp"
+    cidr_blocks     = ["0.0.0.0/0"]
+    security_groups = [aws_security_group.lb.id]
   }
   egress {
     protocol    = "-1"
