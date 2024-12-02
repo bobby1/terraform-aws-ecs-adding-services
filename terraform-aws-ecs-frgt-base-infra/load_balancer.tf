@@ -9,9 +9,8 @@ resource "aws_lb" "cluster_lb" {
 }
 resource "aws_lb_listener" "https_forward" {
   load_balancer_arn = aws_lb.cluster_lb.arn
-  # port              = 80
-  port     = 8080
-  protocol = "HTTP"
+  port              = 8080 ### 80 for httpd and nginx, Tomcat default port 8080, other services may have different default ports
+  protocol          = "HTTP"
   default_action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.ecs-fargate-TG.arn
@@ -20,7 +19,7 @@ resource "aws_lb_listener" "https_forward" {
 resource "aws_lb_target_group" "ecs-fargate-TG" {
   name = "${var.environment}-${var.service}-ecs-frgt-TG"
   # port = 80
-  port        = 8080
+  port        = 8080 ### 80 for httpd and nginx, Tomcat default port 8080, other services may have different default ports
   protocol    = "HTTP"
   vpc_id      = aws_vpc.main.id
   target_type = "ip"
@@ -34,4 +33,3 @@ resource "aws_lb_target_group" "ecs-fargate-TG" {
     unhealthy_threshold = "2"
   }
 }
-

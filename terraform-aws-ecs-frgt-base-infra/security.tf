@@ -51,16 +51,17 @@ resource "aws_security_group" "ecs_tasks" {
     cidr_blocks = var.ingress_cidr_blocks[var.environment]
   }
   ingress {
-    from_port       = 8080
-    to_port         = 8080
-    protocol        = "tcp"
-    cidr_blocks     = ["0.0.0.0/0"]
-    security_groups = [aws_security_group.lb.id]
+    from_port   = 8080 ### 80 for httpd and nginx, Tomcat default port 8080, other services may have different default ports
+    to_port     = 8080 ### 80 for httpd and nginx, Tomcat default port 8080, other services may have different default ports
+    protocol    = "tcp"
+    cidr_blocks = var.ingress_cidr_blocks[var.environment]
+    # security_groups = [aws_security_group.lb.id]
   }
   egress {
-    protocol    = "-1"
-    from_port   = 0
-    to_port     = 0
-    cidr_blocks = ["0.0.0.0/0"]
+    protocol  = "-1"
+    from_port = 0
+    to_port   = 0
+    # cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = var.egress_cidr_blocks[var.environment]
   }
 }
