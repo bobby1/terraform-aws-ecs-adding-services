@@ -10,7 +10,7 @@ data "aws_lb" "existing_lb" {
 
 data "aws_lb_target_group" "existing_tg" {
   #   name = "my-existing-tg"
-  name = "dev-ecs-webpage-ecs-fargate-TG"
+  name = "dev-ecs-ecs-frgt-TG"
 }
 
 # Create a new ECS Cluster
