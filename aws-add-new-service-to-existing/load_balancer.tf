@@ -1,10 +1,8 @@
-
 data "aws_lb" "cluster_lb" {
   # name = "${var.environment}-${var.service}-webpage-cluster-alb"
   name = "${var.environment}-ecs-webpage-cluster-alb"
 }
 resource "aws_lb_listener" "https_forward" {
-  # load_balancer_arn = aws_lb.cluster_lb2.arn
   load_balancer_arn = data.aws_lb.cluster_lb.arn
   port              = 80
   protocol          = "HTTP"
@@ -29,7 +27,6 @@ resource "aws_lb_target_group" "ecs-fargate-TG" {
   #   unhealthy_threshold = "2"
   # }
 }
-
 output "ecs_cluster_lb_name" {
   value = data.aws_lb.cluster_lb.name
 }

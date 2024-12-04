@@ -8,7 +8,7 @@ resource "aws_ecs_task_definition" "task_definition2" {
   container_definitions = jsonencode([
     {
       name = "${var.environment}-${var.service}-webpage2"
-      image = "httpd"  ### option include nginx, tomcat, and httpd
+      image = "nginx"  ### option include nginx, tomcat, and httpd
       essential = true
       portMappings = [
         {
@@ -17,14 +17,14 @@ resource "aws_ecs_task_definition" "task_definition2" {
           protocol      = "tcp"
         }
       ]
-      logConfiguration = {
-        logDriver = "awslogs"
-        options = {
-          "awslogs-group"         = "wenorg-dev-ecs-cluster"
-          "awslogs-region"        = "${var.region}"
-          "awslogs-stream-prefix" = "add2Exst-"
-        }
-      }
+      # logConfiguration = {
+      #   logDriver = "awslogs"
+      #   options = {
+      #     "awslogs-group"         = "wenorg-dev-ecs-cluster"
+      #     "awslogs-region"        = "${var.region}"
+      #     "awslogs-stream-prefix" = "add2Exst-"
+        # }
+      # }
     }
   ])
 }
