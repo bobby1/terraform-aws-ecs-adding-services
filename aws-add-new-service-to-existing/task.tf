@@ -1,18 +1,14 @@
 resource "aws_ecs_task_definition" "task_definition2" {
   family                   = "${var.environment}-${var.service}-webpage2"
   network_mode             = "awsvpc"
-  requires_compatibilities = ["FARGATE"]
-  # requires_compatibilities = ["EC2"]
-  # requires_compatibilities = ["FARGATE", "EC2"]  
+  requires_compatibilities = ["FARGATE"]  ### options are
   cpu                = "256"
   memory             = "512"
   execution_role_arn = aws_iam_role.ecs_task_execution_role.arn
   container_definitions = jsonencode([
     {
       name = "${var.environment}-${var.service}-webpage2"
-      # image = "nginx"
-      image = "httpd"
-      # image     = "tomcat"
+      image = "httpd"  ### option include nginx, tomcat, and httpd
       essential = true
       portMappings = [
         {
