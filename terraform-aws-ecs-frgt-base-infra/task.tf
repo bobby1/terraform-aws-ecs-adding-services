@@ -8,7 +8,7 @@ resource "aws_ecs_task_definition" "task_definition" {
   container_definitions = jsonencode([
     {
       name      = "${var.environment}-${var.service}-webpage"
-      image     = "tomcat" ### Docker container options from Docker Hub include "nginx", "httpd", "tomcat"
+      image     = "tomcat" ### Docker container options from Docker Hub include "nginx", "httpd", "tomcat", "httpd2"
       essential = true
       portMappings = [
         {

@@ -5,3 +5,7 @@ service           = "<name of service or application>"
 region            = "<region for the deployment>" 
 vpc_cidr          = "<vpc_cidr>"
 public_ec2_key    = "<public_ec2_key>"
+
+### Application deployment settings
+app_port  = "<application service port>"
+app_image = "<application container image URL>"

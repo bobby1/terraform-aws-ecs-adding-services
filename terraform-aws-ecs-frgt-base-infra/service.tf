@@ -2,7 +2,7 @@ resource "aws_ecs_service" "service_name" {
   name            = "${var.environment}-${var.service}-ecs-service"
   cluster         = aws_ecs_cluster.ecs-cluster.id
   task_definition = aws_ecs_task_definition.task_definition.arn
-  desired_count   = var.app_count[var.environment]
+  desired_count   = 1
   launch_type     = "FARGATE" ### Options are "EC2" or "FARGATE".  Default is EC2
   network_configuration {
     security_groups = [aws_security_group.ecs_tasks.id]

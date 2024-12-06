@@ -1,15 +1,12 @@
-# General project information
-# Business Division
+# Business variables
 variable "business_division" {
   description = "Business Division in the large organization this Infrastructure belongs"
   type        = string
 }
-# Environment Variable
 variable "environment" {
   description = "Environment Variable used as a prefix"
   type        = string
 }
-# AWS Region
 variable "region" {
   description = "Region in which AWS Resources to be created"
   type        = string
@@ -18,6 +15,7 @@ variable "service" {
   description = "Service name"
   type        = string
 }
+# Variables for the ECS EC2 Cluster
 variable "app_count" {
   description = "Number of instances to provision."
   type        = map(number)
@@ -48,28 +46,10 @@ variable "ingress_cidr_blocks" {
     prd = ["0.0.0.0/0", ]
   }
 }
-# variable "subnet_count" {
-#   description = "Number of instances to provision."
-#   type        = map(number)
-#   default = {
-#     dev = 2
-#     stg = 2
-#     prd = 2
-#   }
-# }
-variable "subnet_count" {
-  description = "Number of instances to provision."
+variable "instance_type" {
+  description = "Instance type for EC2"
   type        = string
-  default     = "2"
-}
-variable "vpc_cidr" {
-  description = "VPC CIDR blocks"
-  type        = string
-}
-variable "task_role_arn" {
-  description = "(Optional) The ARN of IAM role that grants permissions to the actual application once the container is started (e.g access an S3 bucket or DynamoDB database). If not specified, `aws_iam_role.ecs_task_execution_role.arn` is used"
-  type        = string
-  default     = null
+  default     = "t3.micro"
 }
 
 variable "public_ec2_key" {
@@ -77,9 +57,26 @@ variable "public_ec2_key" {
   type        = string
   default     = ""
 }
-
-variable "instance_type" {
-  description = "Instance type for EC2"
+variable "subnet_count" {
+  description = "Number of instances to provision."
   type        = string
-  default     = "t3.micro"
+  default     = 2
+}
+variable "task_role_arn" {
+  description = "(Optional) The ARN of IAM role that grants permissions to the actual application once the container is started (e.g access an S3 bucket or DynamoDB database). If not specified, `aws_iam_role.ecs_task_execution_role.arn` is used"
+  type        = string
+  default     = null
+}
+variable "vpc_cidr" {
+  description = "VPC CIDR blocks"
+  type        = string
+}
+### environment variables to attach new service
+variable "app_port" {
+  description = "application service port"
+  type        = number
+}
+variable "app_image" {
+  description = "application container image URL" ### option include nginx, tomcat, and httpd
+  type        = string
 }
