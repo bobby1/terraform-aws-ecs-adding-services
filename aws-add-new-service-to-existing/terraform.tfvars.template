@@ -1,0 +1,22 @@
+# locals variable settings
+business_division = "<business_division>"
+environment       = "<environment>" ## options are "dev", "stg", "prd"
+public_ec2_key    = "<public_ec2_key>"
+region            = "<region for the deployment>" 
+service           = "<name of service or application>"
+vpc_cidr          = "<vpc_cidr>"
+
+
+#### Existing ECS Cluster
+ecs_cluster_name = "<existing environment Cluster name>"
+igw_id           = "<existing environment internet gateway>"
+# load_balancer_DNS_name = "<Existing environment load balancer name>"
+load_balancer_name = "<Existing environment load balancer name>"
+route_table_id     = "<Existing environment route table ID>"
+security_groups    = ["Existing environment security groups"]
+subnets = [<Existing environment private subnets>]
+vpc_id = "<Existing environment VPC ID>"
+
+### Application deployment settings
+app_port  = "<application service port>"
+app_image = "<application container image URL>"

@@ -1,10 +1,11 @@
 data "aws_lb" "cluster_lb" {
-  # name = "${var.environment}-${var.service}-webpage-cluster-alb"
-  name = "${var.environment}-ecs-webpage-cluster-alb"
+  # name = var.ecs_cluster_name
+  name = "dev-ecs-webpage-cluster-alb"
+  # name = var.load_balancer_name
 }
 resource "aws_lb_listener" "https_forward" {
   load_balancer_arn = data.aws_lb.cluster_lb.arn
-  port              = 80
+  port              = var.app_port
   protocol          = "HTTP"
   default_action {
     type             = "forward"
@@ -12,8 +13,8 @@ resource "aws_lb_listener" "https_forward" {
   }
 }
 resource "aws_lb_target_group" "ecs-fargate-TG" {
-  name        = "${var.environment}-${var.service}-webpage-ecs-fargate-TG"
-  port        = 80
+  name        = "${var.environment}-${var.service}-new-frgt-TG"
+  port        = var.app_port
   protocol    = "HTTP"
   vpc_id      = data.aws_vpc.main.id
   target_type = "ip"
@@ -26,7 +27,4 @@ resource "aws_lb_target_group" "ecs-fargate-TG" {
   #   path                = "/"
   #   unhealthy_threshold = "2"
   # }
-}
-output "ecs_cluster_lb_name" {
-  value = data.aws_lb.cluster_lb.name
 }
