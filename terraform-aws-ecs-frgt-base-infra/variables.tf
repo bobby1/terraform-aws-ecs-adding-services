@@ -6,6 +6,10 @@ variable "business_division" {
 variable "environment" {
   description = "Environment Variable used as a prefix"
   type        = string
+  validation {
+    condition     = contains(["dev", "stg", "prd"], var.environment)
+    error_message = "Environment must be one of 'dev', 'stg', or 'prd'."
+  }
 }
 variable "region" {
   description = "Region in which AWS Resources to be created"
@@ -51,7 +55,6 @@ variable "instance_type" {
   type        = string
   default     = "t3.micro"
 }
-
 variable "public_ec2_key" {
   description = "Public key for SSH access to EC2 instances"
   type        = string
@@ -72,11 +75,15 @@ variable "vpc_cidr" {
   type        = string
 }
 ### environment variables to attach new service
+variable "app_image" {
+  description = "application container image URL" ### option include nginx, tomcat, jetty, and httpd 
+  type        = string
+}
 variable "app_port" {
   description = "application service port"
   type        = number
-}
-variable "app_image" {
-  description = "application container image URL" ### option include nginx, tomcat, and httpd
-  type        = string
+  validation {
+    condition     = var.app_port >= 1 && var.app_port <= 65535
+    error_message = "Port must be between 1 and 65535."
+  }
 }

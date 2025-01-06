@@ -10,8 +10,8 @@ resource "aws_ecs_service" "service_name" {
   }
   load_balancer {
     target_group_arn = aws_lb_target_group.ecs-fargate-TG.arn
-    container_name   = "${var.environment}-${var.service}-webpage"
-    container_port   = 8080
+    container_name   = "${var.environment}-${var.service}-tsk-${var.app_port}"
+    container_port   = var.app_port
   }
   depends_on = [aws_lb_listener.https_forward]
 }

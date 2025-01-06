@@ -13,11 +13,11 @@ resource "aws_iam_role" "ecs_task_execution_role" {
     ]
   })
 }
+### Attach the Amazon ECS task execution policy to the role if needed.
 resource "aws_iam_role_policy_attachment" "ecs_task_execution_role_policy" {
   role       = aws_iam_role.ecs_task_execution_role.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
-
 ########################################################################################################################
 ## IAM Role for EC2 clusters - not needed for fargate
 ########################################################################################################################
@@ -28,6 +28,7 @@ resource "aws_iam_role" "ec2_instance_role" {
     Scenario = var.business_division
   }
 }
+### Attach the Amazon ECS task execution policy to the role if needed.
 resource "aws_iam_role_policy_attachment" "ec2_instance_role_policy" {
   role       = aws_iam_role.ec2_instance_role.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role"
