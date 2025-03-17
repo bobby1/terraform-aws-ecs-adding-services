@@ -2,8 +2,7 @@ output "igw_id" {
   value = aws_internet_gateway.igw.id
 }
 output "security_groups" {
-  value = aws_security_group.lb.id
-  # value       = "[${aws_security_group.lb.id}]"
+  value       = aws_security_group.lb[*].id
   description = "Security group ID for the load balancer"
 }
 # output "aws_subnet_public" {
@@ -36,4 +35,3 @@ output "load_balancer_DNS_name" {
 output "load_balancer_name" {
   value = aws_lb.cluster_lb.name
 }
-

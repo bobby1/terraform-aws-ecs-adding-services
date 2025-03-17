@@ -8,4 +8,4 @@ public_ec2_key    = "<public_ec2_key>"
 
 ### Application deployment settings
 app_port  = "<application service port>"
-app_image = "<application container image URL>"
+app_image = "<application container image URL>"     

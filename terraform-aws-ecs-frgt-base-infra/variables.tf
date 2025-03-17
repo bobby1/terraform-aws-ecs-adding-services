@@ -24,9 +24,9 @@ variable "app_count" {
   description = "Number of instances to provision."
   type        = map(number)
   default = {
-    dev = 2
-    stg = 4
-    prd = 6
+    dev = 1
+    stg = 2
+    prd = 4
   }
 }
 variable "egress_cidr_blocks" {

@@ -8,13 +8,13 @@ resource "aws_appautoscaling_target" "ecs_target" {
 }
 ### Policy for CPU utilization tracking
 resource "aws_appautoscaling_policy" "ecs_cpu_policy" {
-  name               = "${var.business_division}_${var.environment}_CPUTargetTrackingScaling"
+  name               = "${var.business_division}_${var.environment}_CPU_scaling"
   policy_type        = "TargetTrackingScaling"
   resource_id        = aws_appautoscaling_target.ecs_target.resource_id
   scalable_dimension = aws_appautoscaling_target.ecs_target.scalable_dimension
   service_namespace  = aws_appautoscaling_target.ecs_target.service_namespace
   target_tracking_scaling_policy_configuration {
-    target_value = 90.0
+    target_value = 85.0
     predefined_metric_specification {
       predefined_metric_type = "ECSServiceAverageCPUUtilization"
     }
@@ -24,13 +24,13 @@ resource "aws_appautoscaling_policy" "ecs_cpu_policy" {
 }
 ### Policy for memory utilization tracking
 resource "aws_appautoscaling_policy" "memory_scaling_policy" {
-  name               = "${var.business_division}_${var.environment}_memory-scaling"
+  name               = "${var.business_division}_${var.environment}_memory_scaling"
   service_namespace  = "ecs"
   resource_id        = aws_appautoscaling_target.ecs_target.resource_id
   scalable_dimension = aws_appautoscaling_target.ecs_target.scalable_dimension
   policy_type        = "TargetTrackingScaling"
   target_tracking_scaling_policy_configuration {
-    target_value = 90.0
+    target_value = 85.0
     predefined_metric_specification {
       predefined_metric_type = "ECSServiceAverageMemoryUtilization"
     }
@@ -38,28 +38,30 @@ resource "aws_appautoscaling_policy" "memory_scaling_policy" {
     scale_out_cooldown = 300
   }
 }
-### Define ECS Cluster and Service autoscaling based on time
-#### Scheduled action to scale out during peak hours
-resource "aws_appautoscaling_scheduled_action" "scale_out_peak_hours" {
-  name               = "${var.environment}-${var.service}-ecs-service-scale-up"
-  service_namespace  = "ecs"
-  schedule           = "cron(0 8 * * ? *)" # Every day at 08:00 UTC
+### Scheduled action to start and stop the service on dev and staging environments
+resource "aws_appautoscaling_scheduled_action" "start_service" {
+  count              = var.environment == "prd" ? 0 : 1
+  name               = "${var.environment}-${var.service}-srv-${local.current_timestamp}-start"
   resource_id        = aws_appautoscaling_target.ecs_target.resource_id
-  scalable_dimension = aws_appautoscaling_target.ecs_target.scalable_dimension
-  scalable_target_action {
-    min_capacity = 3
-    max_capacity = 5
-  }
-}
-#### Scheduled action to scale in during off-peak hours
-resource "aws_appautoscaling_scheduled_action" "scale_in_off_peak_hours" {
-  name               = "${var.environment}-${var.service}-ecs-service-scale-down"
+  scalable_dimension = "ecs:service:DesiredCount"
+  schedule           = "cron(00 06 ? * MON-FRI *)"
   service_namespace  = "ecs"
-  schedule           = "cron(0 20 * * ? *)" # Every day at 20:00 UTC
-  resource_id        = aws_appautoscaling_target.ecs_target.resource_id
-  scalable_dimension = aws_appautoscaling_target.ecs_target.scalable_dimension
+  timezone           = "America/Los_Angeles"
   scalable_target_action {
     min_capacity = 1
-    max_capacity = 3
+    max_capacity = 2
+  }
+}
+resource "aws_appautoscaling_scheduled_action" "stop_service" {
+  count              = var.environment == "prd" ? 0 : 1
+  name               = "${var.environment}-${var.service}-srv-${local.current_timestamp}-stop"
+  resource_id        = aws_appautoscaling_target.ecs_target.resource_id
+  scalable_dimension = "ecs:service:DesiredCount"
+  schedule           = "cron(00 19 ? * MON-FRI *)"
+  service_namespace  = "ecs"
+  timezone           = "America/Los_Angeles"
+  scalable_target_action {
+    min_capacity = 0
+    max_capacity = 0
   }
 }

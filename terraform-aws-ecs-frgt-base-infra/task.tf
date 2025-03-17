@@ -1,5 +1,5 @@
 resource "aws_ecs_task_definition" "task_definition" {
-  family                   = "${var.environment}-${var.service}-webpage"
+  family                   = "${var.environment}-${var.service}-tsk-${var.app_port}"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"] ### Options are "EC2" or "FARGATE"
   cpu                      = "256"
@@ -7,21 +7,22 @@ resource "aws_ecs_task_definition" "task_definition" {
   execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
   container_definitions = jsonencode([
     {
-      name      = "${var.environment}-${var.service}-webpage"
-      image     = "tomcat" ### Docker container options from Docker Hub include "nginx", "httpd", "tomcat", "httpd2"
+      name      = "${var.environment}-${var.service}-tsk-${var.app_port}"
+      image     = var.app_image ### Image repository URL
       essential = true
       portMappings = [
         {
-          containerPort = 8080 ### 80 for httpd and nginx, Tomcat default port 8080, other services may have different default ports
-          hostPort      = 8080
+          containerPort = var.app_port
+          hostPort      = var.app_port
         }
       ]
       logConfiguration = {
         logDriver = "awslogs"
         options = {
-          "awslogs-group"         = "wenorg-dev-ecs-cluster"
+          # "awslogs-group"         = "${business_division}/${var.environment}-${var.service}-cluster"
+          "awslogs-group"         = "${var.environment}/${var.service}-cluster"
           "awslogs-region"        = "${var.region}"
-          "awslogs-stream-prefix" = "ecs-frgt-New"
+          "awslogs-stream-prefix" = "${var.environment}-${var.service}"
         }
       }
     }
