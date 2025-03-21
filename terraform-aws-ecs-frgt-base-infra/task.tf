@@ -19,7 +19,7 @@ resource "aws_ecs_task_definition" "task_definition" {
       logConfiguration = {
         logDriver = "awslogs"
         options = {
-          # "awslogs-group"         = "${business_division}/${var.environment}-${var.service}-cluster"
+          # "awslogs-group"         = "/${business_division}/${var.environment}-${var.service}-cluster"
           "awslogs-group"         = "/${var.environment}/${var.service}-cluster"
           "awslogs-region"        = "${var.region}"
           "awslogs-stream-prefix" = "${var.environment}-${var.service}"

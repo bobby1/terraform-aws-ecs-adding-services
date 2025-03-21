@@ -82,7 +82,7 @@ variable "app_port" {
   type        = number
 }
 variable "app_image" {
-  description = "application container image URL"  ### option include nginx, tomcat, and httpd
+  description = "application container image URL" ### option include nginx, tomcat, and httpd
   type        = string
 }
 variable "ecs_cluster_name" {

@@ -4,10 +4,10 @@ resource "aws_ecs_task_definition" "task_definition2" {
   requires_compatibilities = ["FARGATE"] ### options are "EC2" and "FARGATE"
   cpu                      = "256"
   memory                   = "512"
-  execution_role_arn = data.aws_iam_role.ecs_task_execution_role.arn
+  execution_role_arn       = data.aws_iam_role.ecs_task_execution_role.arn
   container_definitions = jsonencode([
     {
-      name = "${var.environment}-${var.service}-webpage${var.app_port}"
+      name      = "${var.environment}-${var.service}-webpage${var.app_port}"
       image     = "${var.app_image}" ### option include nginx, tomcat, and httpd
       essential = true
       portMappings = [
