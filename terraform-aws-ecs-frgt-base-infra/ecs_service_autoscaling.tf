@@ -39,19 +39,19 @@ resource "aws_appautoscaling_policy" "memory_scaling_policy" {
   }
 }
 ### Scheduled action to start and stop the service on dev and staging environments
-resource "aws_appautoscaling_scheduled_action" "start_service" {
-  count              = var.environment == "prd" ? 0 : 1
-  name               = "${var.environment}-${var.service}-srv-${local.current_timestamp}-start"
-  resource_id        = aws_appautoscaling_target.ecs_target.resource_id
-  scalable_dimension = "ecs:service:DesiredCount"
-  schedule           = "cron(00 06 ? * MON-FRI *)"
-  service_namespace  = "ecs"
-  timezone           = "America/Los_Angeles"
-  scalable_target_action {
-    min_capacity = 1
-    max_capacity = 2
-  }
-}
+# resource "aws_appautoscaling_scheduled_action" "start_service" {
+#   count              = var.environment == "prd" ? 0 : 1
+#   name               = "${var.environment}-${var.service}-srv-${local.current_timestamp}-start"
+#   resource_id        = aws_appautoscaling_target.ecs_target.resource_id
+#   scalable_dimension = "ecs:service:DesiredCount"
+#   schedule           = "cron(00 06 ? * MON-FRI *)"
+#   service_namespace  = "ecs"
+#   timezone           = "America/Los_Angeles"
+#   scalable_target_action {
+#     min_capacity = 1
+#     max_capacity = 2
+#   }
+# }
 resource "aws_appautoscaling_scheduled_action" "stop_service" {
   count              = var.environment == "prd" ? 0 : 1
   name               = "${var.environment}-${var.service}-srv-${local.current_timestamp}-stop"
