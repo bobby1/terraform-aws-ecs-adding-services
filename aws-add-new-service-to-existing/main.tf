@@ -3,12 +3,11 @@ provider "aws" {
 }
 # Data Source to retrieve existing Load Balancer and Target Group
 data "aws_lb" "existing_lb" {
-  # description = "Name of existing Load Balancer"
-  name = "dev-ecs-webpage-cluster-alb"
+  name = var.load_balancer_name
 }
 data "aws_lb_target_group" "existing_tg" {
   # description = "Name of existing target group"
-  name = "dev-ecs-ecs-frgt-TG"
+  name = var.aws_lb_target_group
 }
 # Create a new ECS Cluster
 resource "aws_ecs_cluster" "main" {

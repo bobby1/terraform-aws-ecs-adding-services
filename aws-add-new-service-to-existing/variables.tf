@@ -113,3 +113,7 @@ variable "vpc_id" {
   description = "Existing environment VPC ID"
   type        = string
 }
+variable "aws_lb_target_group" {
+  description = "AWS load balancer target group to attach port" ### option include nginx, tomcat, jetty, and httpd 
+  type        = string
+}
