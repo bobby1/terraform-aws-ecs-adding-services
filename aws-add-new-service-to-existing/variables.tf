@@ -82,7 +82,7 @@ variable "app_port" {
   type        = number
 }
 variable "app_image" {
-  description = "application container image URL"  ### option include nginx, tomcat, and httpd
+  description = "application container image URL" ### option include nginx, tomcat, and httpd
   type        = string
 }
 variable "ecs_cluster_name" {
@@ -111,5 +111,9 @@ variable "subnets" {
 }
 variable "vpc_id" {
   description = "Existing environment VPC ID"
+  type        = string
+}
+variable "aws_lb_target_group" {
+  description = "AWS load balancer target group to attach port" ### option include nginx, tomcat, jetty, and httpd 
   type        = string
 }

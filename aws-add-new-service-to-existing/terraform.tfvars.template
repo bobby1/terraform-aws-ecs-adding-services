@@ -6,6 +6,9 @@ region            = "<region for the deployment>"
 service           = "<name of service or application>"
 vpc_cidr          = "<vpc_cidr>"
 
+### Application deployment settings
+app_port  = "<application service port>"
+app_image = "<application container image URL>"
 
 #### Existing ECS Cluster
 ecs_cluster_name = "<existing environment Cluster name>"
@@ -16,7 +19,3 @@ route_table_id     = "<Existing environment route table ID>"
 security_groups    = ["Existing environment security groups"]
 subnets = [<Existing environment private subnets>]
 vpc_id = "<Existing environment VPC ID>"
-
-### Application deployment settings
-app_port  = "<application service port>"
-app_image = "<application container image URL>"

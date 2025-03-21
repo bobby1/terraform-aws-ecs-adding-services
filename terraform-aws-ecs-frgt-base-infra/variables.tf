@@ -19,16 +19,29 @@ variable "service" {
   description = "Service name"
   type        = string
 }
-# Variables for the ECS EC2 Cluster
+### environment variables to attach new service
 variable "app_count" {
   description = "Number of instances to provision."
   type        = map(number)
   default = {
-    dev = 2
-    stg = 4
-    prd = 6
+    dev = 1
+    stg = 2
+    prd = 4
   }
 }
+variable "app_image" {
+  description = "application container image URL" ### option include nginx, tomcat, jetty, and httpd 
+  type        = string
+}
+variable "app_port" {
+  description = "application service port"
+  type        = number
+  validation {
+    condition     = var.app_port >= 1 && var.app_port <= 65535
+    error_message = "Port must be between 1 and 65535."
+  }
+}
+
 variable "egress_cidr_blocks" {
   description = "CIDR blocks to allow in the security group"
   type        = map(list(string))
@@ -73,17 +86,4 @@ variable "task_role_arn" {
 variable "vpc_cidr" {
   description = "VPC CIDR blocks"
   type        = string
-}
-### environment variables to attach new service
-variable "app_image" {
-  description = "application container image URL" ### option include nginx, tomcat, jetty, and httpd 
-  type        = string
-}
-variable "app_port" {
-  description = "application service port"
-  type        = number
-  validation {
-    condition     = var.app_port >= 1 && var.app_port <= 65535
-    error_message = "Port must be between 1 and 65535."
-  }
 }
