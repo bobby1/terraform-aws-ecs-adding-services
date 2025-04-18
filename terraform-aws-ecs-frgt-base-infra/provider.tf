@@ -18,11 +18,11 @@ provider "aws" {
 }
 terraform {
   backend "s3" {
-    bucket         = "wenorg"                           ### example "wenorg"
-    key            = "dev/ecs/terraform.tfstate"        # key            = "<environment>/<service>.tfstate" ###  format should be environment/service.tfstate  Example "stg/user.tfstate"
-    region         = "us-west-1"                        ### The S3 state bucket is always in us-west-2 to keep state files in one place 
-    dynamodb_table = "wenorg-dev-ecs-terraform-locking" ### The DynamoDB table is keyed on LockID which is set as a bucketName/path. This is to prevent concurrent writes to the state file
-    encrypt        = true
+    bucket       = "wenorgtfstate"             ### example "wenorg"
+    key          = "dev/ecs/terraform.tfstate" ###  format should be environment/service.tfstate  Example "stg/user.tfstate"
+    region       = "us-west-2"                 ### The S3 state bucket is always in us-west-2 to keep state files in one place 
+    use_lockfile = true                        ### dynamodb_table depreciated in terraform v1.10+.  use use_lockfile instead
+    encrypt      = true
   }
 }
 locals {
