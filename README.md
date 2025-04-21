@@ -53,11 +53,9 @@ To use this code base, AWS cli, Terraform and Ansible are required to be install
 Once the AWS ECS base infrastructure is created, Terraform will print the output to the required information to the 2nd stage, adding ECS services to the existing infrastructure.  
 
 ## Roadmap
-## Roadmap
 - Add support for additional AWS regions.
 - Implement automated testing for Terraform configurations.
 - Provide examples for integrating with CI/CD pipelines.
-
 Please email me for features and additions you would like to see.  
 
 or
