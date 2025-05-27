@@ -18,10 +18,10 @@ provider "aws" {
 }
 terraform {
   backend "s3" {
-    # bucket       = "<bucket_name>"             ### example "wenorg"
-    # key          = "<statefile name>" ###  format should be environment/service.tfstate  Example "stg/user.tfstate"
-    # region       = "<AWS S3 bucket region>"                 ### The S3 state bucket is always in us-west-2 to keep state files in one place 
-    use_lockfile = true
+    bucket       = "wenorgtfstate"             ### example "wenorg"
+    key          = "dev/ecs/terraform.tfstate" ###  format should be environment/service.tfstate  Example "stg/user.tfstate"
+    region       = "us-west-2"                 ### The S3 state bucket is always in us-west-2 to keep state files in one place 
+    use_lockfile = true                        ### dynamodb_table depreciated in terraform v1.10+.  use use_lockfile instead
     encrypt      = true
   }
 }
